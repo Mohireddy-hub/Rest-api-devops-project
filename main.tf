@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 
-# Security Group
+
 resource "aws_security_group" "rest_api_sg" {
   name_prefix = "rest-api-sg"
   
@@ -38,9 +38,9 @@ resource "aws_security_group" "rest_api_sg" {
   }
 }
 
-# EC2 Instance - Ubuntu
+
 resource "aws_instance" "rest_api_server" {
-  ami                    = "ami-0dee22c13ea7a9a67"
+  ami                    = "ami-0e001c9271cf7f3b9"
   instance_type          = "c7i-flex.large"
   key_name              = "rest-api-2"
   vpc_security_group_ids = [aws_security_group.rest_api_sg.id]
@@ -49,27 +49,27 @@ resource "aws_instance" "rest_api_server" {
 #!/bin/bash
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 
-# Update system
+
 apt-get update -y
 
-# Install Docker
+
 apt-get install -y docker.io
 systemctl start docker
 systemctl enable docker
 usermod -aG docker ubuntu
 
-# Install Docker Compose
+
 curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
-# Wait for Docker to be ready
+
 sleep 10
 
-# Pull and run the Docker image from Docker Hub
+
 docker pull mohireddy/api-app:latest
 docker run -d -p 5000:5000 --name rest-api --restart unless-stopped mohireddy/api-app:latest
 
-# Create deployment script for CI/CD updates
+
 cat > /home/ubuntu/update-app.sh << 'UPDATE_SCRIPT'
 #!/bin/bash
 echo "Updating application..."
@@ -83,7 +83,7 @@ UPDATE_SCRIPT
 chmod +x /home/ubuntu/update-app.sh
 chown ubuntu:ubuntu /home/ubuntu/update-app.sh
 
-# Create status files
+
 echo "Docker container started at $(date)" > /home/ubuntu/deployment-status.txt
 docker ps > /home/ubuntu/docker-status.txt
 chown ubuntu:ubuntu /home/ubuntu/*.txt
