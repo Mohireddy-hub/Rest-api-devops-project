@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "ap-south-1"
+  region = "eu-west-1"
 }
 
 
@@ -66,8 +66,8 @@ chmod +x /usr/local/bin/docker-compose
 sleep 10
 
 # Pull and run the Docker image from Docker Hub
-docker pull ranjith7760/my-app:latest
-docker run -d -p 5000:5000 --name rest-api --restart unless-stopped ranjith7760/my-app:latest
+docker pull mohireddy/api-app:latest
+docker run -d -p 5000:5000 --name rest-api --restart unless-stopped mohireddy/api-app:latest
 
 # Create deployment script for CI/CD updates
 cat > /home/ubuntu/update-app.sh << 'UPDATE_SCRIPT'
@@ -76,7 +76,7 @@ echo "Updating application..."
 docker pull ranjith7760/my-app:latest
 docker stop rest-api || true
 docker rm rest-api || true
-docker run -d -p 5000:5000 --name rest-api --restart unless-stopped ranjith7760/my-app:latest
+docker run -d -p 5000:5000 --name rest-api --restart unless-stopped mohireddy/api-app:latest
 echo "Application updated successfully"
 UPDATE_SCRIPT
 
