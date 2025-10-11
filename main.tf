@@ -73,7 +73,7 @@ docker run -d -p 5000:5000 --name rest-api --restart unless-stopped mohireddy/ap
 cat > /home/ubuntu/update-app.sh << 'UPDATE_SCRIPT'
 #!/bin/bash
 echo "Updating application..."
-docker pull ranjith7760/my-app:latest
+docker pull mohireddy/api-app:latest
 docker stop rest-api || true
 docker rm rest-api || true
 docker run -d -p 5000:5000 --name rest-api --restart unless-stopped mohireddy/api-app:latest
