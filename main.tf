@@ -40,7 +40,7 @@ resource "aws_security_group" "rest_api_sg" {
 
 
 resource "aws_instance" "rest_api_server" {
-  ami                    = "ami-052064a798f08f0d3"
+  ami                    = "ami-0e001c9271cf7f3b9"
   instance_type          = "c7i-flex.large"
   key_name              = "rest-api-2"
   vpc_security_group_ids = [aws_security_group.rest_api_sg.id]
