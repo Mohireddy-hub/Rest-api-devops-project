@@ -9,7 +9,7 @@ items = []
 def get_items():
     return jsonify(items)
 
-@app.route('/items', methods=['POST'])
+@app.route('/additems', methods=['POST'])
 def create_item():
     data = request.get_json()
     if not data or 'name' not in data:
