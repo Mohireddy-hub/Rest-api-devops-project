@@ -14,7 +14,7 @@ def test_get_items_empty(client):
     assert json.loads(response.data) == []
 
 def test_create_item(client):
-    response = client.post('/items', 
+    response = client.post('/additems', 
                           data=json.dumps({'name': 'Test Item', 'description': 'Test Description'}),
                           content_type='application/json')
     assert response.status_code == 201
